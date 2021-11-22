@@ -1,2 +1,7 @@
-# simple-crud-api
-RSS Simple Crud API
+# RS School NodeJS Course
+
+List of Tasks [here](https://github.com/rolling-scopes-school/basic-nodejs-course)
+
+Status | Task | Url
+-----|-----|--------
+Done | Task-3 Simple CRUD API | https://github.com/SeLub/simple-crud-api/tree/develop
