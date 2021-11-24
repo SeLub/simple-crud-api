@@ -1,6 +1,3 @@
-# Task 3. simple-crud-api
-RSS Simple Crud API
-
 # __Task 3. Simple CRUD API__
 
 Task [description here](https://github.com/rolling-scopes-school/basic-nodejs-course/blob/master/descriptions/simple-crud-api.md)

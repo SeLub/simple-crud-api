@@ -1,0 +1,31 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "description": "RSS Simple CRUD API",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeLub/simple-crud-api.git"
+  },
+  "keywords": [
+    "api",
+    "crud",
+    "nodejs"
+  ],
+  "author": "Sergey Lubimov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeLub/simple-crud-api/issues"
+  },
+  "homepage": "https://github.com/SeLub/simple-crud-api#readme",
+  "devDependencies": {
+    "dotenv": "^10.0.0"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2",
+    "webpack": "^5.64.2"
+  }
+}
