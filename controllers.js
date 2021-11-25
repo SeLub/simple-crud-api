@@ -1,8 +1,8 @@
 
-const { handleGETrequest } = require('./controllers/handleGETrequest');
-const { handleDELETErequest } = require('./controllers/handleDELETErequest');
-const { handlePOSTrequest } = require('./controllers/handlePOSTrequest');
-const { handlePUTrequest } = require('./controllers/handlePUTrequest');
+import { handleGETrequest } from './controllers/handleGETrequest.js';
+import { handleDELETErequest } from './controllers/handleDELETErequest.js';
+import { handlePOSTrequest } from './controllers/handlePOSTrequest.js';
+import { handlePUTrequest } from './controllers/handlePUTrequest.js';
 
 function noResponse(req, res, reqUrl) {
     res.writeHead(404);
@@ -10,4 +10,4 @@ function noResponse(req, res, reqUrl) {
     res.end();
 }
 
-module.exports = { handleGETrequest, handlePOSTrequest, handlePUTrequest, handleDELETErequest, noResponse};
+export { handleGETrequest, handlePOSTrequest, handlePUTrequest, handleDELETErequest, noResponse};

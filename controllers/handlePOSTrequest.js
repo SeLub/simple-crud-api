@@ -1,5 +1,5 @@
-const { createPerson } = require('../models');
-const { validate } = require('uuid');
+import { createPerson } from '../models.js';
+import { validate } from 'uuid';
 
 function handlePOSTrequest(req, res, reqUrl) {
 
@@ -50,4 +50,4 @@ function handlePOSTrequest(req, res, reqUrl) {
     };
 };
 
-module.exports = { handlePOSTrequest };
+export { handlePOSTrequest };

@@ -1,5 +1,5 @@
-const { deletePerson, findPersonById } = require('../models');
-const { validate } = require('uuid');
+import { deletePerson, findPersonById } from '../models.js';
+import { validate } from 'uuid';
 
 
 const handleDELETErequest = (req, res, reqUrl) => {
@@ -46,4 +46,4 @@ if (reqUrl.searchParams.has('id')) {
 
 }
 
-module.exports = { handleDELETErequest };
+export { handleDELETErequest };

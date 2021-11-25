@@ -1,5 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
-
+import { v4 as uuidv4 } from 'uuid';
 
 const personsDB = [
 {
@@ -10,27 +9,18 @@ const personsDB = [
 }
 ]
 
-function arrayEquals(a, b) {
-return Array.isArray(a) &&
-Array.isArray(b) &&
-a.length === b.length &&
-a.every((val, index) => val === b[index]);
-}
+const arrayEquals = (a, b) => { return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]); }
 
-exports.findAllPersons = (array = personsDB) =>{
+const findAllPersons = (array = personsDB) => JSON.stringify(array);
 
-return JSON.stringify(array);
-
-};
-
-exports.findPersonById = (id, array = personsDB) => {
+const findPersonById = (id, array = personsDB) => {
 
 	let obj = array.find(o => o.id === id);
 
 	return obj ? JSON.stringify(obj) : undefined;
 };
 
-exports.createPerson = (name, age, hobbies, array = personsDB) =>{
+const createPerson = (name, age, hobbies, array = personsDB) =>{
 
 		let newPerson = {'id': uuidv4(), 'name' : name, 'age': age, 'hobbies': hobbies};
 
@@ -40,7 +30,7 @@ exports.createPerson = (name, age, hobbies, array = personsDB) =>{
 
 };
 
-exports.updatePerson = (id, name, age, hobbies, array = personsDB) =>{
+const updatePerson = (id, name, age, hobbies, array = personsDB) =>{
 
 	let obj = array.find(x => x.id === id);
 	
@@ -53,7 +43,7 @@ exports.updatePerson = (id, name, age, hobbies, array = personsDB) =>{
 return array[index];
 };
 
-exports.deletePerson = (id, array = personsDB) =>{
+const deletePerson = (id, array = personsDB) =>{
 
 	let obj = array.find(x => x.id === id);
 	
@@ -63,3 +53,5 @@ exports.deletePerson = (id, array = personsDB) =>{
 
 return true;
 };
+
+export { findAllPersons, findPersonById, createPerson, updatePerson, deletePerson };

@@ -1,5 +1,5 @@
-const { updatePerson, findPersonById } = require('../models');
-const { validate } = require('uuid');
+import { updatePerson, findPersonById } from '../models.js';
+import { validate } from 'uuid';
 
 
 const handlePUTrequest = (req, res, reqUrl) => {
@@ -77,4 +77,4 @@ const handlePUTrequest = (req, res, reqUrl) => {
 
 }
 
-module.exports = { handlePUTrequest };
+export { handlePUTrequest };

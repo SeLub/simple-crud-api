@@ -1,11 +1,10 @@
-
-require('dotenv').config();
-
-const http = require('http');
-
-const { handleGETrequest, handlePOSTrequest, handlePUTrequest, handleDELETErequest, noResponse} = require('./controllers')
+import {} from 'dotenv/config';
+import * as http from 'http';
+import { handleGETrequest, handlePOSTrequest, handlePUTrequest, handleDELETErequest, noResponse} from './controllers.js';
 
 const { PORT } = process.env || 3000;
+
+console.log(PORT)
 
 http.createServer((req, res) => {
 
@@ -36,7 +35,7 @@ http.createServer((req, res) => {
         'default': noResponse
     };
 
-    redirectedFunc = router[req.method + reqUrl.pathname] || router['default'];
+    let redirectedFunc = router[req.method + reqUrl.pathname] || router['default'];
 
     redirectedFunc(req, res, reqUrl);
 

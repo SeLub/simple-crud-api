@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "RSS Simple CRUD API",
   "main": "server.js",
+  "type": "module", 
   "scripts": {
     "test": "jest"
   },
