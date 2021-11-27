@@ -31,15 +31,16 @@ function handlePOSTrequest(req, res, reqUrl) {
                                     
                                 let newPerson = createPerson(jsonBody.name, jsonBody.age, jsonBody.hobbies);
                                     
-                                statusCode = 201;
-                                    
+                                statusCode = 201;                                    
                                 message = JSON.stringify(newPerson.data);
+                                res.setHeader("Content-Type", "application/json");
                             
                             }else { 
                                 
                                 statusCode = 400;
-
-                                message = 'Your request has not mandatory data: name, age or hobbies.'};
+                                message = 'Your request has not mandatory data: name, age or hobbies.';
+                                res.setHeader("Content-Type", "text/plain");
+                            };
                             
                             res.writeHead(statusCode);
                             res.write(message);

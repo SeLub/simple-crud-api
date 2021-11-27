@@ -16,11 +16,13 @@ if (reqUrl.searchParams.has('id')) {
 
             statusCode = 200;
             message = findPersonById(personId);
+            res.setHeader("Content-Type", "application/json");
 
         } else {
 
         statusCode = 404; 
         message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found in DB.';
+        res.setHeader("Content-Type", "text/plain");
 
         }       
 
@@ -29,14 +31,15 @@ if (reqUrl.searchParams.has('id')) {
 
         statusCode = 400; 
         message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
+        res.setHeader("Content-Type", "text/plain");
 
     }
 
 } else { 
 
     statusCode = 200; 
-
     message = findAllPersons(); 
+    res.setHeader("Content-Type", "application/json");
 }
 
     res.writeHead(statusCode);

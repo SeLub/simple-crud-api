@@ -31,9 +31,9 @@ const handlePUTrequest = (req, res, reqUrl) => {
                     let updatedPerson = updatePerson(personId, name, age, hobbies);
 
                     statusCode = 200;
-
                     message = JSON.stringify(updatedPerson);
 
+                    res.setHeader("Content-Type", "application/json");
                     res.writeHead(statusCode);
         			res.write(message);
         			res.end();
@@ -46,6 +46,7 @@ const handlePUTrequest = (req, res, reqUrl) => {
 	        statusCode = 404; 
 	        message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
 
+	        res.setHeader("Content-Type", "text/plain");
 	        res.writeHead(statusCode);
         	res.write(message);
         	res.end();
@@ -58,6 +59,7 @@ const handlePUTrequest = (req, res, reqUrl) => {
 	        statusCode = 400; 
 	        message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
 
+	        res.setHeader("Content-Type", "text/plain");
 	        res.writeHead(statusCode);
         	res.write(message);
         	res.end();
@@ -70,6 +72,7 @@ const handlePUTrequest = (req, res, reqUrl) => {
 	
 	    message = 'Your request has not mandatory data: id.';
 
+	    res.setHeader("Content-Type", "text/plain");
 	    res.writeHead(statusCode);
         res.write(message);
         res.end();

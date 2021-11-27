@@ -6,7 +6,7 @@ const { PORT } = process.env || 3000;
 
 console.log(PORT)
 
-http.createServer((req, res) => {
+let server = http.createServer((req, res) => {
 
 	const isIdinReq = (pathname) => { return pathname.split('/').length >=3 && pathname.split('/').at(-1) !== '' ? true : false }
 
@@ -40,3 +40,5 @@ http.createServer((req, res) => {
     redirectedFunc(req, res, reqUrl);
 
 }).listen(PORT, () => { console.log(`Server is running at ${PORT}`); });
+
+export default server;
