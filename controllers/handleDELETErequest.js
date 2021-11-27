@@ -28,7 +28,8 @@ if (reqUrl.searchParams.has('id')) {
 
     } else { 
 
-        statusCode = 400; 
+        statusCode = 400;
+        
         message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
 
     }
