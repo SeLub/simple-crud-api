@@ -3,97 +3,167 @@ import supertest from 'supertest';
 
 import server from'./server.js';
 
-//import chai from 'chai';
+import chai from 'chai';
 
-//const expect = chai.expect;
-//const assert = chai.assert;
-
-
-// it('should return Hello Test', function (done) {
-//   
-//   request(server)
-//   	.get('/person').
-//     .expect(200)
-//     .end(done);
-// 
-// });
+const expect = chai.expect;
+const assert = chai.assert;
 
 const host = 'localhost:3000';
 
 const request = supertest(host);
 
-console.log(request)
+const newTestUser = {
+  name: 'Bill Gates',
+  age: '66',
+  hobbies: ['tennis','chess','running']
+};
 
-  describe('GET', () => {
+const updatedTestUser ={
+  name: 'William Henry Gates III',
+  age: '66',
+  hobbies: ['tennis','chess','running']  
+};
+
+
+describe('Scenario 1. GET', () => {
+
+    it('should get all users, [] expected', async () => {
+          const usersResponse = await request
+            .get('/person')
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect('Content-Type', /json/);
+
+    let isResposeArray = JSON.parse(usersResponse.text);
+
+    expect(isResposeArray).to.be.an('array').that.is.empty;
+    });
+
+});
+
+describe('Scenario 2. POST', () => {
+
+    it(`should create new user 'Bill Gates'`, async () => {
+
+          let userId;
     
-    it('should get stCode 200', async () => {
+          await request
+            .post('/person')
+            .set('Accept', 'application/json')
+            .send(newTestUser)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then(res => { userId = JSON.parse(res.text).id;
+            });
 
-      const usersResponse = await request
-        .get('/person')
-        .expect(200)
-	console.log(usersResponse.text)
 
-      //expect(usersResponse.status).to.equal(200);
-      //expect(Array.isArray(JSON.parse(usersResponse.text))).to.be.true();
-    });
+          const userResponse = await request
+            .get(`/person/${userId}`)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect('Content-Type', /json/);
 
-    it('should get statusCoode 404 get a user by id', async () => {
-      // Setup:
-      let nonExistsUserId = '89da7309-e5ed-48a4-b4e6-ae47c947ae13';
+          let nameTestUser = JSON.parse(userResponse.text).name;
 
-      // Test:
-      const userResponse = await request
-        .get(`/person/${nonExistsUserId}`)
-        .expect(404)
-    });
-
-    it('should get statusCoode 200 get a user by id', async () => {
-      // Setup:
-      let existsUserId = '89da7309-e5ed-48a4-b4e6-ae47c947ae12';
-
-      // Test:
-      const userResponse = await request
-        .get(`/person/${existsUserId}`)
-        .expect(200)
+    expect(nameTestUser).to.equal('Bill Gates');
 
     });
 
-    it(`should get 'coding' as second el in array 'hobbies'`, async () => {
-      // Setup:
-      let userId;
+});
 
-      // Test:
-      const userResponse = await request
-        .get('/person/89da7309-e5ed-48a4-b4e6-ae47c947ae12')
-        .expect(200)
-        .then(res => { userId = JSON.parse(JSON.stringify(res))})
-        .then(res => userId = JSON.parse(userId.text).hobbies[1])
+describe('Scenario 3. GET', () => {
 
-      expect(userId).to.equal('coding');
+    it(`should get just created user 'Bill Gates' by id`, async () => {
+
+          let userId;
+    
+          await request
+            .post('/person')
+            .set('Accept', 'application/json')
+            .send(newTestUser)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then(res => { userId = JSON.parse(res.text).id;
+            });
+
+          const userResponse = await request
+            .get(`/person/${userId}`)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect('Content-Type', /json/);
+
+          let nameTestUser = JSON.parse(userResponse.text).name;
+
+    expect(nameTestUser).to.equal('Bill Gates');
+    });
+
+});
+
+describe('Scenario 4. PUT', () => {
+
+    it(`should change name of just created user 'Bill Gates' to 'William Henry Gates III' `, async () => {
+
+          let userId;
+    
+          await request
+            .post('/person')
+            .set('Accept', 'application/json')
+            .send(newTestUser)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then(res => { userId = JSON.parse(res.text).id;
+            });
+
+
+          const userResponse = await request
+            .put(`/person/${userId}`)
+            .set('Accept', 'application/json')
+            .send(updatedTestUser)
+            .expect(200)
+            .expect('Content-Type', /json/)
+
+          let nameTestUser = JSON.parse(userResponse.text).name;
+
+    expect(nameTestUser).to.equal('William Henry Gates III');
+    });
+});
+
+
+
+
+describe('Scenario 5. DELETE', () => {
+
+    it(`should delete just created user `, async () => {
+
+          let userId;
+    
+          await request
+            .post('/person')
+            .set('Accept', 'application/json')
+            .send(newTestUser)
+            .expect(201)
+            .expect('Content-Type', /json/)
+            .then(res => { userId = JSON.parse(res.text).id;
+            });
+
+
+          let userResponse = await request
+            .get(`/person/${userId}`)
+            .set('Accept', 'application/json')
+            .expect(200)
+            .expect('Content-Type', /json/);
+
+          await request
+            .delete(`/person/${userId}`)
+            .set('Accept', 'application/json')
+            .expect(204)
+
+          userResponse = await request
+            .get(`/person/${userId}`)
+            .set('Accept', 'application/json')
+            .expect(404)
 
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-//  it("should create person", async () => {
-//    const { body } = await fetch(url, {
-//      method: "POST",
-//      data: createData,
-//    });
-//    expect(body).toEqual(
-//      expect.objectContaining({ id: expect.any(String), ...createData })
-//    );
-//
-//    personId = body.id;
-//  });
+    
 });

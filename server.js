@@ -4,8 +4,6 @@ import { handleGETrequest, handlePOSTrequest, handlePUTrequest, handleDELETErequ
 
 const { PORT } = process.env || 3000;
 
-console.log(PORT)
-
 let server = http.createServer((req, res) => {
 
 	const isIdinReq = (pathname) => { return pathname.split('/').length >=3 && pathname.split('/').at(-1) !== '' ? true : false }
