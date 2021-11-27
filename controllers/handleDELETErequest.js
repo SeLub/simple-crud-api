@@ -12,25 +12,37 @@ if (reqUrl.searchParams.has('id')) {
 
     if (validate(personId)) { 
 
-        if (findPersonById(personId)) {
+            try{
 
-            statusCode = 204;
+                if (findPersonById(personId)) {
+        
+                    statusCode = 204;
+        
+                    message = deletePerson(personId) ? `Record with id=${personId} has been deleted.` : 'Some error in deletePerson function.';
+                     
+                } else {
+        
+                statusCode = 404; 
+        
+                message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
+                res.setHeader("Content-Type", "text/plain");
+        
+                };
 
-            message = deletePerson(personId) ? `Record with id=${personId} has been deleted.` : 'Some error in deletePerson function.';
-             
-        } else {
+            } catch(error){
 
-        statusCode = 404; 
+                statusCode = 500; 
+                message = error.message;
+                res.setHeader("Content-Type", "text/plain");
 
-        message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
-
-        };
+            };
 
     } else { 
 
         statusCode = 400;
         
         message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
+        res.setHeader("Content-Type", "text/plain");
 
     }
 
@@ -39,6 +51,7 @@ if (reqUrl.searchParams.has('id')) {
     statusCode = 500; 
 
     message = 'Your request has not mandatory data: id.';
+    res.setHeader("Content-Type", "text/plain");
 }
 
     res.writeHead(statusCode);

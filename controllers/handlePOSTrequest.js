@@ -28,12 +28,21 @@ function handlePOSTrequest(req, res, reqUrl) {
                             let jsonBody = JSON.parse(body);
 
                             if ((jsonBody.name && jsonBody.age && jsonBody.hobbies) !== undefined) {
+
+                                try {
                                     
-                                let newPerson = createPerson(jsonBody.name, jsonBody.age, jsonBody.hobbies);
-                                    
-                                statusCode = 201;                                    
-                                message = JSON.stringify(newPerson.data);
-                                res.setHeader("Content-Type", "application/json");
+                                    let newPerson = createPerson(jsonBody.name, jsonBody.age, jsonBody.hobbies);
+                                        
+                                    statusCode = 201;                                    
+                                    message = JSON.stringify(newPerson.data);
+                                    res.setHeader("Content-Type", "application/json");
+
+                                } catch(error) {
+
+                                    statusCode = 500; 
+                                    message = error.message;
+                                    res.setHeader("Content-Type", "text/plain");
+                                }
                             
                             }else { 
                                 

@@ -12,48 +12,60 @@ const handlePUTrequest = (req, res, reqUrl) => {
 	    let personId = reqUrl.searchParams.get('id');
 	
 	    if (validate(personId)) { 
+
+	    	try {
 	
-	        if (findPersonById(personId)) {
-
-	        	let body = '';
-        				
-        		req.on('data', function (chank) {
-                    body += chank;
-                    if (body.length > 1e6) { req.connection.destroy() }
-                });
-
-        		req.on('end', function () {
-    
-                    let jsonBody = JSON.parse(body);
-
-                    const { name, age, hobbies } = jsonBody;
-
-                    let updatedPerson = updatePerson(personId, name, age, hobbies);
-
-                    statusCode = 200;
-                    message = JSON.stringify(updatedPerson);
-
-                    res.setHeader("Content-Type", "application/json");
-                    res.writeHead(statusCode);
-        			res.write(message);
-        			res.end();
-
-                });
-
-
-	        } else {
+	        	if (findPersonById(personId)) {
 	
-	        statusCode = 404; 
-	        message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
-
-	        res.setHeader("Content-Type", "text/plain");
-	        res.writeHead(statusCode);
-        	res.write(message);
-        	res.end();
+	        		let body = '';
+        					
+        			req.on('data', function (chank) {
+            	        body += chank;
+            	        if (body.length > 1e6) { req.connection.destroy() }
+            	    });
 	
-	        };
+        			req.on('end', function () {
+    	
+            	        let jsonBody = JSON.parse(body);
+	
+            	        const { name, age, hobbies } = jsonBody;
+	
+            	        let updatedPerson = updatePerson(personId, name, age, hobbies);
+	
+            	        statusCode = 200;
+            	        message = JSON.stringify(updatedPerson);
+	
+            	        res.setHeader("Content-Type", "application/json");
+            	        res.writeHead(statusCode);
+        				res.write(message);
+        				res.end();
+	
+            	    });
 	
 	
+	        	} else {
+		
+	        	statusCode = 404; 
+	        	message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
+	
+	        	res.setHeader("Content-Type", "text/plain");
+	        	res.writeHead(statusCode);
+        		res.write(message);
+        		res.end();
+		
+	        	};
+			
+			} catch(error){
+
+    			statusCode = 500; 
+    			message = error.message;
+    			res.setHeader("Content-Type", "text/plain");
+    			res.write(message);
+        		res.end();
+
+			};
+	
+	    
 	    } else { 
 	
 	        statusCode = 400; 

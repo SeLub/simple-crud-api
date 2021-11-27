@@ -6,11 +6,17 @@ const handleGETrequest = (req, res, reqUrl) => {
 
     let message = '', statusCode = 0;
 
+
+
 if (reqUrl.searchParams.has('id')) {
 
     let personId = reqUrl.searchParams.get('id');
 
     if (validate(personId)) { 
+
+
+
+    try{    
 
         if (findPersonById(personId)) {
 
@@ -24,7 +30,14 @@ if (reqUrl.searchParams.has('id')) {
         message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found in DB.';
         res.setHeader("Content-Type", "text/plain");
 
-        }       
+        }
+
+    } catch (error){
+
+        statusCode = 500; 
+        message = error.message;
+        res.setHeader("Content-Type", "text/plain");
+    }       
 
 
     } else { 
@@ -37,9 +50,23 @@ if (reqUrl.searchParams.has('id')) {
 
 } else { 
 
-    statusCode = 200; 
+
+try {
+
     message = findAllPersons(); 
+    statusCode = 200;
     res.setHeader("Content-Type", "application/json");
+
+} catch(error){
+
+    statusCode = 500; 
+    message = error.message;
+    res.setHeader("Content-Type", "text/plain");
+
+
+}
+
+
 }
 
     res.writeHead(statusCode);
