@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "mocha *.test.js",
+    "test:mocha": "mocha *.test.js --exit",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start:dev": "nodemon ./server.js localhost 8080",
     "start:prod": "npx webpack --config webpack.config.js & node ./dist/bundle"
@@ -28,9 +28,8 @@
   "devDependencies": {
     "chai": "*",
     "dotenv": "^10.0.0",
-    "jest": "*",
+    "jest": "^27.3.1",
     "mocha": "*",
-    "node-fetch": "^3.1.0",
     "nodemon": "^2.0.15",
     "supertest": "^6.1.6",
     "webpack": "^5.64.4",
