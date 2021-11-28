@@ -2,19 +2,43 @@
 
 Task [description here](https://github.com/rolling-scopes-school/basic-nodejs-course/blob/master/descriptions/simple-crud-api.md)
 
-Task due date / deadline date - XX.11.21 / 28.11.21 23:59(GMT+3)
+Task due date / deadline date - 28.11.21 / 28.11.21 23:59(GMT+3)
 
 Self check:
  
- TOTAL POINTS - _** XXX points**_
- 
+ TOTAL POINTS - _** 162 points**_
+
 -----------
 
-## __Evaluation criteria__
+# Task
 
+Your task is to implement simple CRUD API using in-memory database underneath.  
+NB! You must create new repository for this task. Its name must be `simple-crud-api` i.e. full link to the repository must be `https://github.com/%your-gihub-id%/simple-crud-api`.
+
+## Details:
+
+1. The task must be solved using only **pure Node.js**. Any libraries and packages (except `nodemon`, `eslint` and its plugins, `prettier` and its plugins, `uuid`, `webpack` and its plugins, testing tools, `dotenv`, `cross-env`) **are prohibited**.
+2. API path `/person`:
+    * **GET** `/person` or `/person/${personId}` should return all persons or person with corresponding `personId`
+    * **POST** `/person` is used to create record about new person and store it in database
+    * **PUT** `/person/${personId}` is used to update record about existing person
+    * **DELETE** `/person/${personId}` is used to delete record about existing person from database
+3. Persons are stored as `objects` that have following properties:
+    * `id` — unique identifier (`string`, `uuid`) generated on server side
+    * `name` — person's name (`string`, **required**)
+    * `age` — person's age (`number`, **required**)
+    * `hobbies` — person's hobbies (`array` of `strings` or empty `array`, **required**)
+4. Requests to non-existing endpoints (e.g. `/some-non/existing/resource`) should be handled.
+5. Internal server errors should be handled and processed correctly.
+6. Value of port on which application is running should be stored in `.env` file.
+7. There should be 2 modes of running application: **development** and **production**
+8. There could be some tests for API.
+
+-----------
+
+# __Evaluation criteria__
 
 ## Базовая реализация
-
 
 1. В репозитории с приложением имеется файл `Readme.md`, содержащий подробные инструкции по установке, запуску и использованию приложения **плюс 10 баллов**
 2. Сервер возвращает соответствующие ответы на запросы:
@@ -64,17 +88,47 @@ Self check:
 * Отсутствует отдельная ветка для разработки **минус 20 баллов**
 * Меньше 3 коммитов в ветке разработки, не считая коммиты, вносящие изменения только в `Readme.md` либо вспомогательные файлы (`.gitignore`, `.prettierrc.json` и т.д.) **минус 20 баллов**
 
+
 ------------
 
 # __Summary Report__
+
+Задание выполнено полностью.
+
+Для тестирования используются два фреймворка : __Jest__ , __Mocha__ и библиотека __Chai__.
+
+Предпочтительный фреймворк для тестирования: __Mocha__
+
+Запускать командой 
+
+```
+npm run test:mocha
+
+```
 
 Я уложился в дедлайн и коммиты после него делать не буду.
 
 Оставляю за собой право на коммит по исправлению и дополнению отчёта после дедлайна (так можно!).
 
-__Спасибо за Ваше время и ваш интерес к моей работе!!!__
+Команды для запуска и управления можно найти ниже. 
 
-__ !!!! Для запуска тестов используйте команду: npm run test -- --coverage__
+Также в отчёте приведены скриншоты тестов.
+
+Для вашего удобства проверки в Postman, я экспортировал коллекцию API использовавшихся для разработки и тестирования сервера. Она находится в папке postman_collection
+
+Вы можете раскомментировать тестового пользователя в файле "базы данных" и запросами из Postman проверить работу. 
+
+------------
+
+## Server management
+
+#   | Command | Description 
+----------------------|-------------|-----
+1 | npm run server | Start server
+2 | npm run start:dev | Automatically restart server when code has edited
+3 | npm run start:prod | Generate production build wth webpack and start it
+4 | npm run test:mocha | Run mocha tests
+5 | npm run test:jest | Run jest tests
 
 -----
 
@@ -82,18 +136,10 @@ __ !!!! Для запуска тестов используйте команду
 
 ------------
 
-#### **Enigma Cipher Program v.2** -  улучшил внешний вид, логику, сделал рефакторинг (в т.ч. и на основе тестов)
+#### **Mocha Tests** - результат тестирования фреймворком Mocha
 
-![Enigma Cipher Program](app.png)
+![Mocha](mocha_test.gif)
 
-#### **Тесты Jest** -  показатели по тестированию
+#### **Тесты Jest** - результат тестирования фреймворком Jest
 
-![Get Product by ID](tests.png)
-
-#### **validateArgs** -  результат работы тестов, в которых задействованы сценарии из задания
-
-![validateArgs](validateArgs.png)
-
-#### **parseConfig.png** -  результат тестирования функции парсинга шифра
-
-![parseConfig.png](parseConfig.png)
+![Jest](jest_test.gif)
