@@ -117,7 +117,7 @@ npm run server
 Для вашего удобства проверки в Postman, я экспортировал коллекцию API использовавшихся для разработки и тестирования сервера. Она находится в папке 
 [__postman_collection__](https://github.com/SeLub/simple-crud-api/tree/develop/postman_collection). Можете импортировать в свой Postman.
 
-Вы можете [раскомментировать тестового пользователя](https://github.com/SeLub/simple-crud-api/blob/develop/models.js) в файле "базы данных" и запросами из Postman проверить работу моей коллекции. 
+Вы можете [раскомментировать тестового пользователя](https://github.com/SeLub/simple-crud-api/blob/develop/personsDB.js) в файле "базы данных" и запросами из Postman проверить работу моей коллекции. 
 
 
 
