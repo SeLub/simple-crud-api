@@ -9,7 +9,7 @@
     "test:mocha": "mocha ./tests/*.test.js --exit",
     "test:jest": "node --experimental-vm-modules node_modules/jest/bin/jest.js --silent --verbose",
     "start:dev": "nodemon ./server.js localhost 3000",
-    "start:prod": "npx webpack --config webpack.config.js & node ./dist/bundle"
+    "start:prod": "npx webpack --config webpack.config.js && node ./dist/bundle"
   },
   "repository": {
     "type": "git",
