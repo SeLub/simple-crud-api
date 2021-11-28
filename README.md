@@ -122,13 +122,14 @@ npm run test:mocha
 
 ## Server management
 
-#   | Command | Description 
+№ | Command | Description 
 ----------------------|-------------|-----
 1 | npm run server | Start server
 2 | npm run start:dev | Automatically restart server when code has edited
 3 | npm run start:prod | Generate production build wth webpack and start it
 4 | npm run test:mocha | Run mocha tests
 5 | npm run test:jest | Run jest tests
+
 
 -----
 
