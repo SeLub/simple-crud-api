@@ -102,6 +102,10 @@ git clone https://github.com/SeLub/simple-crud-api.git
 
 cd simple-crud-api
 
+git checkout develop
+
+npm install
+
 npm run server
 
 ```
