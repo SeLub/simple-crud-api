@@ -3,7 +3,7 @@ import supertest from 'supertest';
 
 import jest from 'jest';
 
-import server from'./server.js';
+import server from'../server.js';
 
 import chai from 'chai';
 

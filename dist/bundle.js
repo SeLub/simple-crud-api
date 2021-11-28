@@ -221,9 +221,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "noResponse": () => (/* binding */ noResponse)
 /* harmony export */ });
 /* harmony import */ var _controllers_handleGETrequest_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-/* harmony import */ var _controllers_handleDELETErequest_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
-/* harmony import */ var _controllers_handlePOSTrequest_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
-/* harmony import */ var _controllers_handlePUTrequest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+/* harmony import */ var _controllers_handleDELETErequest_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+/* harmony import */ var _controllers_handlePOSTrequest_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
+/* harmony import */ var _controllers_handlePUTrequest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(21);
 
 
 
@@ -247,7 +247,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "handleGETrequest": () => (/* binding */ handleGETrequest)
 /* harmony export */ });
 /* harmony import */ var _models_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
 
 
 
@@ -256,37 +256,67 @@ const handleGETrequest = (req, res, reqUrl) => {
 
     let message = '', statusCode = 0;
 
+
+
 if (reqUrl.searchParams.has('id')) {
 
     let personId = reqUrl.searchParams.get('id');
 
     if ((0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(personId)) { 
 
+
+
+    try{    
+
         if ((0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findPersonById)(personId)) {
 
             statusCode = 200;
             message = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findPersonById)(personId);
+            res.setHeader("Content-Type", "application/json");
 
         } else {
 
         statusCode = 404; 
         message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found in DB.';
+        res.setHeader("Content-Type", "text/plain");
 
-        }       
+        }
+
+    } catch (error){
+
+        statusCode = 500; 
+        message = error.message;
+        res.setHeader("Content-Type", "text/plain");
+    }       
 
 
     } else { 
 
         statusCode = 400; 
         message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
+        res.setHeader("Content-Type", "text/plain");
 
     }
 
 } else { 
 
-    statusCode = 200; 
+
+try {
 
     message = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findAllPersons)(); 
+    statusCode = 200;
+    res.setHeader("Content-Type", "application/json");
+
+} catch(error){
+
+    statusCode = 500; 
+    message = error.message;
+    res.setHeader("Content-Type", "text/plain");
+
+
+}
+
+
 }
 
     res.writeHead(statusCode);
@@ -309,75 +339,116 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "updatePerson": () => (/* binding */ updatePerson),
 /* harmony export */   "deletePerson": () => (/* binding */ deletePerson)
 /* harmony export */ });
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _personsDB_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
 
 
-const personsDB = [
-{
-	id : '89da7309-e5ed-48a4-b4e6-ae47c947ae12',
-	name : 'Sergey Lubimov',
-	age: 27,
-	hobbies : ['swimming','coding','dancing']
-}
-]
+
+
+
+
+const notArrayError = (message = 'In-mamory DataBase mast be array.') => { throw new Error(message); };
 
 const arrayEquals = (a, b) => { return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index]); }
 
-const findAllPersons = (array = personsDB) => JSON.stringify(array);
+const findAllPersons = (array = _personsDB_js__WEBPACK_IMPORTED_MODULE_0__["default"]) => {
 
-const findPersonById = (id, array = personsDB) => {
+	if (Array.isArray(array)) { return JSON.stringify(array); } else { notArrayError(); };
 
-	let obj = array.find(o => o.id === id);
-
-	return obj ? JSON.stringify(obj) : undefined;
 };
 
-const createPerson = (name, age, hobbies, array = personsDB) =>{
+const findPersonById = (id, array = _personsDB_js__WEBPACK_IMPORTED_MODULE_0__["default"]) => {
 
-		let newPerson = {'id': (0,uuid__WEBPACK_IMPORTED_MODULE_0__["default"])(), 'name' : name, 'age': age, 'hobbies': hobbies};
+	if (Array.isArray(array)) {
+
+		let obj = array.find(o => o.id === id);
+
+		return obj ? JSON.stringify(obj) : undefined;
+
+	} else { notArrayError(); };
+
+};
+
+const createPerson = (name, age, hobbies, array = _personsDB_js__WEBPACK_IMPORTED_MODULE_0__["default"]) =>{
+
+	if (Array.isArray(array)) {
+
+		let newPerson = {'id': (0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(), 'name' : name, 'age': age, 'hobbies': hobbies};
 
 		array.push(newPerson);
 		
 		return { resault: true, data: newPerson};
 
+	} else { notArrayError(); };
+
 };
 
-const updatePerson = (id, name, age, hobbies, array = personsDB) =>{
+const updatePerson = (id, name, age, hobbies, array = _personsDB_js__WEBPACK_IMPORTED_MODULE_0__["default"]) =>{
 
-	let obj = array.find(x => x.id === id);
+	if (Array.isArray(array)) {
+
+		let obj = array.find(x => x.id === id);
 	
-	let index = array.indexOf(obj);
+		let index = array.indexOf(obj);
 
 		if (name !== obj.name) { obj.name = name };
 		if (age !== obj.age) { obj.age = age };
 		if (!arrayEquals(hobbies, obj.hobbies)) { obj.hobbies = hobbies }
 
-return array[index];
+		return array[index];
+	
+	} else { notArrayError(); };
+
 };
 
-const deletePerson = (id, array = personsDB) =>{
+const deletePerson = (id, array = _personsDB_js__WEBPACK_IMPORTED_MODULE_0__["default"]) =>{
 
-	let obj = array.find(x => x.id === id);
+	if (Array.isArray(array)) {
+
+		let obj = array.find(x => x.id === id);
 	
-	let index = array.indexOf(obj);
+		let index = array.indexOf(obj);
 
-	array.splice(index,1);
+		array.splice(index,1);
+		
+	} else { notArrayError(); }
 
 return true;
 };
 
 
 
+
 /***/ }),
 /* 12 */
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const personsDB =   // undefined;
+					[
+					//{
+					//	id : '89da7309-e5ed-48a4-b4e6-ae47c947ae12',
+					//	name : 'Sergey Lubimov',
+					//	age: 27,
+					//	hobbies : ['swimming','coding','dancing']
+					//}
+					];
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (personsDB);
+
+/***/ }),
+/* 13 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
 
 
 
@@ -404,14 +475,14 @@ function v4(options, buf, offset) {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v4);
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ rng)
 /* harmony export */ });
-/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 /* harmony import */ var crypto__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(crypto__WEBPACK_IMPORTED_MODULE_0__);
 
 const rnds8Pool = new Uint8Array(256); // # of random values to pre-allocate
@@ -427,20 +498,20 @@ function rng() {
 }
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ ((module) => {
 
 module.exports = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("crypto");
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 
 /**
  * Convert array of 16 byte values to UUID string format of the form:
@@ -472,14 +543,14 @@ function stringify(arr, offset = 0) {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stringify);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
 
 
 function validate(uuid) {
@@ -489,7 +560,7 @@ function validate(uuid) {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validate);
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -499,7 +570,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -507,7 +578,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "handleDELETErequest": () => (/* binding */ handleDELETErequest)
 /* harmony export */ });
 /* harmony import */ var _models_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
 
 
 
@@ -522,25 +593,37 @@ if (reqUrl.searchParams.has('id')) {
 
     if ((0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(personId)) { 
 
-        if ((0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findPersonById)(personId)) {
+            try{
 
-            statusCode = 204;
+                if ((0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findPersonById)(personId)) {
+        
+                    statusCode = 204;
+        
+                    message = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.deletePerson)(personId) ? `Record with id=${personId} has been deleted.` : 'Some error in deletePerson function.';
+                     
+                } else {
+        
+                statusCode = 404; 
+        
+                message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
+                res.setHeader("Content-Type", "text/plain");
+        
+                };
 
-            message = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.deletePerson)(personId) ? `Record with id=${personId} has been deleted.` : 'Some error in deletePerson function.';
-             
-        } else {
+            } catch(error){
 
-        statusCode = 404; 
+                statusCode = 500; 
+                message = error.message;
+                res.setHeader("Content-Type", "text/plain");
 
-        message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
-
-        };
+            };
 
     } else { 
 
         statusCode = 400;
         
         message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
+        res.setHeader("Content-Type", "text/plain");
 
     }
 
@@ -549,6 +632,7 @@ if (reqUrl.searchParams.has('id')) {
     statusCode = 500; 
 
     message = 'Your request has not mandatory data: id.';
+    res.setHeader("Content-Type", "text/plain");
 }
 
     res.writeHead(statusCode);
@@ -561,7 +645,7 @@ if (reqUrl.searchParams.has('id')) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -599,18 +683,28 @@ function handlePOSTrequest(req, res, reqUrl) {
                             let jsonBody = JSON.parse(body);
 
                             if ((jsonBody.name && jsonBody.age && jsonBody.hobbies) !== undefined) {
+
+                                try {
                                     
-                                let newPerson = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.createPerson)(jsonBody.name, jsonBody.age, jsonBody.hobbies);
-                                    
-                                statusCode = 201;
-                                    
-                                message = JSON.stringify(newPerson.data);
+                                    let newPerson = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.createPerson)(jsonBody.name, jsonBody.age, jsonBody.hobbies);
+                                        
+                                    statusCode = 201;                                    
+                                    message = JSON.stringify(newPerson.data);
+                                    res.setHeader("Content-Type", "application/json");
+
+                                } catch(error) {
+
+                                    statusCode = 500; 
+                                    message = error.message;
+                                    res.setHeader("Content-Type", "text/plain");
+                                }
                             
                             }else { 
                                 
                                 statusCode = 400;
-
-                                message = 'Your request has not mandatory data: name, age or hobbies.'};
+                                message = 'Your request has not mandatory data: name, age or hobbies.';
+                                res.setHeader("Content-Type", "text/plain");
+                            };
                             
                             res.writeHead(statusCode);
                             res.write(message);
@@ -624,7 +718,7 @@ function handlePOSTrequest(req, res, reqUrl) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -632,7 +726,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "handlePUTrequest": () => (/* binding */ handlePUTrequest)
 /* harmony export */ });
 /* harmony import */ var _models_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
 
 
 
@@ -647,52 +741,66 @@ const handlePUTrequest = (req, res, reqUrl) => {
 	    let personId = reqUrl.searchParams.get('id');
 	
 	    if ((0,uuid__WEBPACK_IMPORTED_MODULE_1__["default"])(personId)) { 
+
+	    	try {
 	
-	        if ((0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findPersonById)(personId)) {
-
-	        	let body = '';
-        				
-        		req.on('data', function (chank) {
-                    body += chank;
-                    if (body.length > 1e6) { req.connection.destroy() }
-                });
-
-        		req.on('end', function () {
-    
-                    let jsonBody = JSON.parse(body);
-
-                    const { name, age, hobbies } = jsonBody;
-
-                    let updatedPerson = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.updatePerson)(personId, name, age, hobbies);
-
-                    statusCode = 200;
-
-                    message = JSON.stringify(updatedPerson);
-
-                    res.writeHead(statusCode);
-        			res.write(message);
-        			res.end();
-
-                });
-
-
-	        } else {
+	        	if ((0,_models_js__WEBPACK_IMPORTED_MODULE_0__.findPersonById)(personId)) {
 	
-	        statusCode = 404; 
-	        message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
-
-	        res.writeHead(statusCode);
-        	res.write(message);
-        	res.end();
+	        		let body = '';
+        					
+        			req.on('data', function (chank) {
+            	        body += chank;
+            	        if (body.length > 1e6) { req.connection.destroy() }
+            	    });
 	
-	        };
+        			req.on('end', function () {
+    	
+            	        let jsonBody = JSON.parse(body);
+	
+            	        const { name, age, hobbies } = jsonBody;
+	
+            	        let updatedPerson = (0,_models_js__WEBPACK_IMPORTED_MODULE_0__.updatePerson)(personId, name, age, hobbies);
+	
+            	        statusCode = 200;
+            	        message = JSON.stringify(updatedPerson);
+	
+            	        res.setHeader("Content-Type", "application/json");
+            	        res.writeHead(statusCode);
+        				res.write(message);
+        				res.end();
+	
+            	    });
 	
 	
+	        	} else {
+		
+	        	statusCode = 404; 
+	        	message = 'Person with id: ' + reqUrl.searchParams.get('id') + ' not found.';
+	
+	        	res.setHeader("Content-Type", "text/plain");
+	        	res.writeHead(statusCode);
+        		res.write(message);
+        		res.end();
+		
+	        	};
+			
+			} catch(error){
+
+    			statusCode = 500; 
+    			message = error.message;
+    			res.setHeader("Content-Type", "text/plain");
+    			res.write(message);
+        		res.end();
+
+			};
+	
+	    
 	    } else { 
 	
 	        statusCode = 400; 
 	        message = 'id: ' + reqUrl.searchParams.get('id') + ' is not valid uuid.';
 
+	        res.setHeader("Content-Type", "text/plain");
 	        res.writeHead(statusCode);
         	res.write(message);
         	res.end();
@@ -705,6 +813,7 @@ const handlePUTrequest = (req, res, reqUrl) => {
 	
 	    message = 'Your request has not mandatory data: id.';
 
+	    res.setHeader("Content-Type", "text/plain");
 	    res.writeHead(statusCode);
         res.write(message);
         res.end();
@@ -787,6 +896,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
 /* harmony import */ var dotenv_config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8);
 /* harmony import */ var _controllers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9);
@@ -796,9 +908,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const { PORT } = process.env || 3000;
 
-console.log(PORT)
-
-http__WEBPACK_IMPORTED_MODULE_1__.createServer((req, res) => {
+let server = http__WEBPACK_IMPORTED_MODULE_1__.createServer((req, res) => {
 
 	const isIdinReq = (pathname) => { return pathname.split('/').length >=3 && pathname.split('/').at(-1) !== '' ? true : false }
 
@@ -833,5 +943,6 @@ http__WEBPACK_IMPORTED_MODULE_1__.createServer((req, res) => {
 
 }).listen(PORT, () => { console.log(`Server is running at ${PORT}`); });
 
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (server);
 })();
 

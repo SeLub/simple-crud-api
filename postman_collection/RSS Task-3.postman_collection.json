@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "7f684694-3801-41f2-95ca-126342c92a93",
+		"name": "RSS Task-3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET not valid UUID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person/6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET w/o id  : GET ALL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET valid UUID NOT EXISTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person/6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET valid UUID EXISTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person/89da7309-e5ed-48a4-b4e6-ae47c947ae12",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-e5ed-48a4-b4e6-ae47c947ae12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST with id in url : 500 ERROR",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/person/89da7309-e5ed-49a4-b4e6-ae47c947ae12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-e5ed-49a4-b4e6-ae47c947ae12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST valid JSON in Body : 201 stCode",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"89da7309-e5ed-48a4-b4e6-ae47c947ae12\",\n    \"name\" : \"Test Product\",\n    \"age\": \"45\", \n    \"hobbies\" : \"['TEST1','PROD1','test']\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/person",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST not required data in JSON Body : 400 ERROR",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"DODDY\",\n    \"age\" : \"56\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/person",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE with Id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person/89da7309-e5ed-48a4-b4e6-ae47c947ae12",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-e5ed-48a4-b4e6-ae47c947ae12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE with Id NOT EXISTS",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person/aa3661d1-a530-4cbb-b394-43688a753826",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"aa3661d1-a530-4cbb-b394-43688a753826"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE with Id NOT VALID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/person/89da7309-",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT valid : 200 stCode",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Test Product\",\n    \"age\": \"45\", \n    \"hobbies\" : \"['TEST1','PROD221','test']\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/person/89da7309-e5ed-48a4-b4e6-ae47c947ae12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-e5ed-48a4-b4e6-ae47c947ae12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT not Vailid : 400 ERROR",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Test Product\",\n    \"age\": \"45\", \n    \"hobbies\" : \"['TEST1','PROD221','test']\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/person/89da7309-e5ed-48a4-b4e6-ae47c947ae156",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-e5ed-48a4-b4e6-ae47c947ae156"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT not Found : 404 ERROR",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Test Product\",\n    \"age\": \"45\", \n    \"hobbies\" : \"['TEST1','PROD221','test']\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/person/89da7309-e5ed-48a4-b4e6-ae47c947ae15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"person",
+						"89da7309-e5ed-48a4-b4e6-ae47c947ae15"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
