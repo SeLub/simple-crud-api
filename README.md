@@ -88,6 +88,7 @@ NB! You must create new repository for this task. Its name must be `simple-crud-
 * Отсутствует отдельная ветка для разработки **минус 20 баллов**
 * Меньше 3 коммитов в ветке разработки, не считая коммиты, вносящие изменения только в `Readme.md` либо вспомогательные файлы (`.gitignore`, `.prettierrc.json` и т.д.) **минус 20 баллов**
 
+[summaru report](#summary-report)
 
 ------------
 
