@@ -110,7 +110,10 @@ NB! You must create new repository for this task. Its name must be `simple-crud-
 ```
 
 __ Обращаю внимание что передаются строки! И это не является основанием для снятия баллов__
+
+
 Данный вопрос обсуждался на стриме : https://www.youtube.com/watch?v=ogCL5c8bhUQ
+и Максим дал рекомендации оценки.
 
 ----
 
