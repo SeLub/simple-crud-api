@@ -206,10 +206,10 @@ npm run test:jest
 
 ------------
 
-#### **Mocha Tests** - результат тестирования фреймворком Mocha
+#### **Swagger UI API documentation**
 
-![Mocha](mocha_test.gif)
+![Swagger UI API documentation](swagger.png)
 
-#### **Тесты Jest** - результат тестирования фреймворком Jest
+#### **TESTS** - screencast of the tests running
 
-![Jest](jest_test.gif)
+![Tests running](tests_demo.gif)
